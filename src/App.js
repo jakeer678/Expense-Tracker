@@ -1,10 +1,11 @@
-import Login from "./components/Login";
+
+import RoutingApp from "./components/RoutesApp/RoutingApp";
 import ContextProvider from "./store/ContextProvider";
 
 function App() {
   return (
     <ContextProvider>
-      <Login />
+      <RoutingApp />
     </ContextProvider>
   );
 }
