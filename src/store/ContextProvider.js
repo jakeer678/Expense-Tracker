@@ -22,7 +22,7 @@ const ContextProvider = (props) => {
   };
 
   return (
-    <userContext.Provider value={{ contextValue }}>
+    <userContext.Provider value={contextValue}>
       {props.children}
     </userContext.Provider>
   );

@@ -9,6 +9,7 @@ const SignUp = () => {
   const passwordInputRef = useRef();
   const confirmPasswordRef = useRef();
   const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const { LoginUserHandle } = useContext(userContext);
   const navigate = useNavigate();
 
@@ -18,44 +19,48 @@ const SignUp = () => {
     const emailInput = emailInputRef.current.value;
     const passwordInput = passwordInputRef.current.value;
     const confirmPasswordInput = confirmPasswordRef.value;
+    if (passwordInput === confirmPasswordInput) {
+      setError("Password do not match");
+    } else {
+      setLoading(true);
 
-    setLoading(true);
-
-    fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCu5UWll7yrSyYvqmDYmYLdxlWNkCixilI",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          email: emailInput,
-          password: passwordInput,
-          confirmPassword: confirmPasswordInput,
-          returnSecureToken: true,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((response) => {
-        setLoading(false);
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.json().then((data) => {
-            let errorMessage = "Login Authentication failed";
-            alert(errorMessage);
-            throw new Error(errorMessage);
-          });
+      fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCu5UWll7yrSyYvqmDYmYLdxlWNkCixilI",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: emailInput,
+            password: passwordInput,
+            confirmPassword: confirmPasswordInput,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      })
-      .then((data) => {
-        alert("sucess");
-        LoginUserHandle("token", data.idToken);
-        navigate("/");
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+      )
+        .then((response) => {
+          setLoading(false);
+          if (response.ok) {
+            return response.json();
+          } else {
+            return response.json().then((data) => {
+              let errorMessage = "Login Authentication failed";
+              alert(errorMessage);
+              throw new Error(errorMessage);
+            });
+          }
+        })
+        .then((data) => {
+          LoginUserHandle(data.idToken);
+          navigate("/login");
+          return alert("sucess");
+        })
+        .catch((error) => {
+          console.error(error);
+          setError("Error signing up");
+        });
+    }
   };
 
   return (

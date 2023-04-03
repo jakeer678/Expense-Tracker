@@ -38,7 +38,7 @@ const Login = () => {
           return response.json();
         } else {
           return response.json().then((data) => {
-            let errorMessage = "Authentication failed";
+            let errorMessage = "Login Authentication failed";
             alert(errorMessage);
             throw new Error(errorMessage);
           });
@@ -46,8 +46,8 @@ const Login = () => {
       })
       .then((data) => {
         alert("sucess");
-        LoginUserHandle("token",data.idToken);
-        navigate("/");
+        LoginUserHandle(data.idToken);
+        navigate("/startingpage");
         console.log(data.idToken, "jakkkkkke");
       })
       .catch((error) => {

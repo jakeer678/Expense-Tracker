@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const StartingPage = () => {
-  return (
-    <div>
-      hi jakeer
-    </div>
-  )
-}
+  return <div>welcome to Expense Tracker</div>;
+};
 
-export default StartingPage
+export default StartingPage;
