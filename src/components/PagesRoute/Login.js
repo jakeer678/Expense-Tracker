@@ -10,20 +10,20 @@ const Login = () => {
   const [isLoading, setLoading] = useState(false);
   const { LoginUserHandle } = useContext(userContext);
   const navigate = useNavigate();
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
     setLoading(true);
-    fetch(
+    const response = await fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCu5UWll7yrSyYvqmDYmYLdxlWNkCixilI",
 
       {
         method: "POST",
         body: JSON.stringify({
-          emai: enteredEmail,
+          email: enteredEmail,
           password: enteredPassword,
           returnSecureToken: true,
         }),
@@ -31,28 +31,19 @@ const Login = () => {
           "Content-Type": "application/json",
         },
       }
-    )
-      .then((response) => {
-        setLoading(false);
-        if (response.ok) {
-          return response.json();
-        } else {
-          return response.json().then((data) => {
-            let errorMessage = "Login Authentication failed";
-            alert(errorMessage);
-            throw new Error(errorMessage);
-          });
-        }
-      })
-      .then((data) => {
-        alert("sucess");
-        LoginUserHandle(data.idToken);
-        navigate("/startingpage");
-        console.log(data.idToken, "jakkkkkke");
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    );
+
+    const responseData = await response.json();
+    console.log(responseData, "kkkkkkk");
+    const token = !!responseData.idToken;
+    if (token) {
+      setLoading(false);
+      alert("Login successful");
+      LoginUserHandle(responseData.idToken);
+      navigate("/startingpage");
+    } else {
+      alert("Login failed, Please try again");
+    }
   };
 
   return (

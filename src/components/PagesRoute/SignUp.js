@@ -9,22 +9,22 @@ const SignUp = () => {
   const passwordInputRef = useRef();
   const confirmPasswordRef = useRef();
   const [isLoading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [passwordValid, setPasswordValid] = useState(false);
   const { LoginUserHandle } = useContext(userContext);
   const navigate = useNavigate();
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
 
     const emailInput = emailInputRef.current.value;
     const passwordInput = passwordInputRef.current.value;
     const confirmPasswordInput = confirmPasswordRef.value;
-    if (passwordInput === confirmPasswordInput) {
-      setError("Password do not match");
+
+    if (passwordInput !== confirmPasswordInput) {
+      setPasswordValid("Password do not match");
     } else {
       setLoading(true);
-
-      fetch(
+      const response = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCu5UWll7yrSyYvqmDYmYLdxlWNkCixilI",
         {
           method: "POST",
@@ -38,28 +38,17 @@ const SignUp = () => {
             "Content-Type": "application/json",
           },
         }
-      )
-        .then((response) => {
-          setLoading(false);
-          if (response.ok) {
-            return response.json();
-          } else {
-            return response.json().then((data) => {
-              let errorMessage = "Login Authentication failed";
-              alert(errorMessage);
-              throw new Error(errorMessage);
-            });
-          }
-        })
-        .then((data) => {
-          LoginUserHandle(data.idToken);
-          navigate("/login");
-          return alert("sucess");
-        })
-        .catch((error) => {
-          console.error(error);
-          setError("Error signing up");
-        });
+      );
+      const responseData = await response.json();
+      const token = !!responseData.idToken;
+      if (token) {
+        setLoading(false);
+        alert("signUp successfull");
+        LoginUserHandle(responseData.idToken);
+        navigate("/");
+      } else {
+        alert("SignUp failed, try again");
+      }
     }
   };
 
