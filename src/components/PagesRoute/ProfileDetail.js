@@ -22,6 +22,9 @@ const ProfileDetail = () => {
     );
     const responseData = response.json();
     console.log(responseData, "llllll");
+    const usersData = responseData.users[0];
+    fullNameRef.current.value = usersData.displayName;
+    photoUrlRef.current.value = usersData.photoUrl;
   };
 
   const profileSubmitHandler = async (e) => {
