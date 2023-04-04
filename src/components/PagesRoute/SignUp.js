@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
-import "./Login.css";
+import "./SignUp.css";
 
 import { Link, useNavigate } from "react-router-dom";
 import { userContext } from "../../store/ContextStore";
@@ -9,7 +9,7 @@ const SignUp = () => {
   const passwordInputRef = useRef();
   const confirmPasswordRef = useRef();
   const [isLoading, setLoading] = useState(false);
-  const [passwordValid, setPasswordValid] = useState(false);
+
   const { LoginUserHandle } = useContext(userContext);
   const navigate = useNavigate();
 
@@ -19,36 +19,28 @@ const SignUp = () => {
     const emailInput = emailInputRef.current.value;
     const passwordInput = passwordInputRef.current.value;
     const confirmPasswordInput = confirmPasswordRef.value;
-
-    if (passwordInput !== confirmPasswordInput) {
-      setPasswordValid("Password do not match");
-    } else {
-      setLoading(true);
-      const response = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCu5UWll7yrSyYvqmDYmYLdxlWNkCixilI",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email: emailInput,
-            password: passwordInput,
-            confirmPassword: confirmPasswordInput,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const responseData = await response.json();
-      const token = !!responseData.idToken;
-      if (token) {
-        setLoading(false);
-        alert("signUp successfull");
-        LoginUserHandle(responseData.idToken);
-        navigate("/");
-      } else {
-        alert("SignUp failed, try again");
+    setLoading(true)
+    const response = await fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCu5UWll7yrSyYvqmDYmYLdxlWNkCixilI",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: emailInput,
+          password: passwordInput,
+          returnSecureToken: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       }
+    );
+    const responseData = await response.json();
+    const tokenLogin = !!responseData.idToken;
+    if (tokenLogin) {
+      setLoading(false)
+      alert("signUp successfull");
+      LoginUserHandle(responseData.idToken);
+      navigate("/login");
     }
   };
 
@@ -58,6 +50,7 @@ const SignUp = () => {
         <h4>Sign Up</h4>
         <form onSubmit={submitHandler}>
           <div>
+            <labe>Email</labe>
             <input
               className="form-control"
               type="email"
@@ -67,6 +60,7 @@ const SignUp = () => {
             />
           </div>
           <div>
+            <label>Password</label>
             <input
               type="password"
               placeholder="Password"
@@ -77,6 +71,7 @@ const SignUp = () => {
           </div>
 
           <div>
+            <label>Confirm Password</label>
             <input
               type="password"
               placeholder="Confirm-Password"

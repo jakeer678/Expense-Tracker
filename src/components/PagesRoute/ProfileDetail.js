@@ -16,7 +16,7 @@ const ProfileDetail = () => {
           idToken: token,
         }),
         headers: {
-          " Content-Type": "application/json",
+          "Content-Type": "application/json",
         },
       }
     );

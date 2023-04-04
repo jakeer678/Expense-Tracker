@@ -4,18 +4,20 @@ import "./Navbar.css";
 import { userContext } from "../../store/ContextStore";
 
 const Navbar = () => {
-  const { isLoggedIn,LogoutHandler } = useContext(userContext);
-  const navigate= useNavigate()
-const logout = () => {
-  LogoutHandler()
-  navigate("/login")
-}
+  const { isLoggedIn, LogoutHandler } = useContext(userContext);
+  const navigate = useNavigate();
+  const logout = () => {
+    LogoutHandler();
+    navigate("/login");
+  };
   return (
     <div>
       <ul className="header">
-        <li>
-          <NavLink to="/">Home</NavLink>
-        </li>
+        {isLoggedIn && (
+          <li>
+            <NavLink to="/startingpage">Home</NavLink>
+          </li>
+        )}
         {!isLoggedIn && (
           <li>
             <NavLink to="/login">Login</NavLink>
