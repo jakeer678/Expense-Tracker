@@ -5,9 +5,11 @@ const ContextProvider = (props) => {
   const initialValue = localStorage.getItem("idToken");
   const [token, setToken] = useState(initialValue);
 
-  const LoginUserHandle = (token) => {
-    setToken(token);
-    localStorage.setItem("idToken", token);
+
+  const isLoggedIn = !!token
+  const LoginUserHandle = (idToken) => {
+    setToken(idToken);
+    localStorage.setItem("idToken", idToken);
   };
 
   const LogoutHandler = () => {
@@ -19,6 +21,7 @@ const ContextProvider = (props) => {
     token: token,
     LoginUserHandle: LoginUserHandle,
     LogoutHandler: LogoutHandler,
+    isLoggedIn:isLoggedIn
   };
 
   return (

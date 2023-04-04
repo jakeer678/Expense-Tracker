@@ -1,17 +1,33 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import './Navbar.css'
+import React, { useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import "./Navbar.css";
+import { userContext } from "../../store/ContextStore";
 
 const Navbar = () => {
+  const { isLoggedIn,LogoutHandler } = useContext(userContext);
+  const navigate= useNavigate()
+const logout = () => {
+  LogoutHandler()
+  navigate("/login")
+}
   return (
     <div>
       <ul className="header">
         <li>
           <NavLink to="/">Home</NavLink>
         </li>
-        <li>
-          <NavLink to="/login">Login</NavLink>
-        </li>
+        {!isLoggedIn && (
+          <li>
+            <NavLink to="/login">Login</NavLink>
+          </li>
+        )}
+        {isLoggedIn && (
+          <li>
+            <button onClick={logout}>
+              <NavLink to="/login">Logout</NavLink>
+            </button>
+          </li>
+        )}
       </ul>
     </div>
   );
