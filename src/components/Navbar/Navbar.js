@@ -18,6 +18,11 @@ const Navbar = () => {
             <NavLink to="/startingpage">Home</NavLink>
           </li>
         )}
+        {isLoggedIn && (
+          <li>
+            <NavLink to="/expenses">Expenses</NavLink>
+          </li>
+        )}
         {!isLoggedIn && (
           <li>
             <NavLink to="/login">Login</NavLink>

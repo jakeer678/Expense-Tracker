@@ -7,6 +7,7 @@ import Home from "../PagesRoute/Home";
 import Login from "../PagesRoute/Login";
 import ForgotPassword from "../PagesRoute/ForgotPassword";
 import ContactDetails from "../PagesRoute/ProfileDetail";
+import Expenses from "../Expenses/Expenses";
 
 const RoutingApp = () => {
   return (
@@ -27,6 +28,7 @@ const RoutingApp = () => {
             <Route path="/forgot" element={<ForgotPassword />} />
             <Route path="/startingpage" element={<StartingPage />} />
             <Route path="/contactdetails" element={<ContactDetails />} />
+            <Route path="/expenses" element={<Expenses />} />
           </Route>
         </Routes>
       </BrowserRouter>

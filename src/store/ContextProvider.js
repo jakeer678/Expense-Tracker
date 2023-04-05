@@ -4,9 +4,12 @@ import { userContext } from "./ContextStore";
 const ContextProvider = (props) => {
   const initialValue = localStorage.getItem("idToken");
   const [token, setToken] = useState(initialValue);
-
-
-  const isLoggedIn = !!token
+  const [list, setList] = useState([]);
+  console.log(list, "lllllllaajaj");
+  const addExpenssetLists = (item) => {
+    setList([...list, item]);
+  };
+  const isLoggedIn = !!token;
   const LoginUserHandle = (idToken) => {
     setToken(idToken);
     localStorage.setItem("idToken", idToken);
@@ -21,7 +24,9 @@ const ContextProvider = (props) => {
     token: token,
     LoginUserHandle: LoginUserHandle,
     LogoutHandler: LogoutHandler,
-    isLoggedIn:isLoggedIn
+    isLoggedIn: isLoggedIn,
+    addExpenssetLists: addExpenssetLists,
+    list: list,
   };
 
   return (
