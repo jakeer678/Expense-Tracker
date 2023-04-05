@@ -18,6 +18,7 @@ const Expenses = () => {
       description: descriptionRef.current.value,
       productType: productTypeRef.current.value,
     };
+
     addExpenssetLists(data);
   };
 

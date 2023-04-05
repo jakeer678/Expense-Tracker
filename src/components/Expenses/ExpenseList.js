@@ -4,13 +4,14 @@ import { userContext } from "../../store/ContextStore";
 const ExpenseList = () => {
   const { list } = useContext(userContext);
 
-  const Petrol = list.filter((item) => {
+  // const result = Object.keys(data).map(key => data[key]);
+  const Petrol = list?.filter((item) => {
     if (item.productType === "Petrol") return item;
   });
-  const food = list.filter((item) => {
+  const food = list?.filter((item) => {
     if (item.productType === "food") return item;
   });
-  const salary = list.filter((item) => {
+  const salary = list?.filter((item) => {
     if (item.productType === "salary") return item;
   });
   return (
