@@ -14,7 +14,7 @@ const ContextProvider = (props) => {
     );
     const responseData = response.data;
     console.log(responseData, "sasasasa");
-    setList([responseData]);
+    setList(responseData);
   };
 
   const addExpenssetLists = async (data) => {
@@ -23,10 +23,27 @@ const ContextProvider = (props) => {
       data
     );
     const responseData = response.data;
-    console.log(responseData, "oooooo");
+    console.log(responseData);
     setList([...list, data]);
     setListExpenses();
   };
+
+  const deleteItems = async () => {
+    const response = await axios.delete(
+      `https://expense-list-270ee-default-rtdb.firebaseio.com/${expenses.name}.json`
+    );
+
+    const responseData = response.data;
+    console.log(responseData, "tttttttt");
+    setListExpenses();
+  };
+
+  // const deleteItems = (name) => {
+  //   const deleteItem = list.filter((item) => item.name !== name);
+  //   setList(deleteItem);
+  // };
+
+  const editItems = (name) => {};
 
   const isLoggedIn = !!token;
   const LoginUserHandle = (idToken) => {
@@ -46,12 +63,12 @@ const ContextProvider = (props) => {
     isLoggedIn: isLoggedIn,
     addExpenssetLists: addExpenssetLists,
     list: list,
+    deleteItems: deleteItems,
   };
 
   useEffect(() => {
     setListExpenses();
   }, []);
-
   return (
     <userContext.Provider value={contextValue}>
       {props.children}

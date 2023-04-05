@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { userContext } from "../../store/ContextStore";
 
 const ExpenseList = () => {
-  const { list } = useContext(userContext);
+  const { list, deleteItems } = useContext(userContext);
 
   // const result = Object.keys(data).map(key => data[key]);
   const Petrol = list?.filter((item) => {
@@ -17,11 +17,15 @@ const ExpenseList = () => {
   return (
     <>
       <div>
-        {Petrol?.map((item) => {
+        {console.log(Petrol, "pppppppp")}
+        {Petrol.map((item) => {
           return (
             <div key={item.id}>
               <li>{item.moneySpent}</li>
               <li>{item.description}</li>
+              <div>
+                <button onClick={() => deleteItems(item.id)}>Delete</button>
+              </div>
             </div>
           );
         })}
@@ -32,6 +36,9 @@ const ExpenseList = () => {
             <div key={item.id}>
               <li>{item.moneySpent}</li>
               <li>{item.description}</li>
+              <div>
+                <button onClick={() => deleteItems(item.id)}>Delete</button>
+              </div>
             </div>
           );
         })}
@@ -42,6 +49,9 @@ const ExpenseList = () => {
             <div key={item.id}>
               <li>{item.moneySpent}</li>
               <li>{item.description}</li>
+              <div>
+                <button onClick={() => deleteItems(item.id)}>Delete</button>
+              </div>
             </div>
           );
         })}
