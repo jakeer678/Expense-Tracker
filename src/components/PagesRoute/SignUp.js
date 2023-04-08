@@ -3,14 +3,16 @@ import "./SignUp.css";
 
 import { Link, useNavigate } from "react-router-dom";
 import { userContext } from "../../store/ContextStore";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/AuthSice";
 
 const SignUp = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const confirmPasswordRef = useRef();
   const [isLoading, setLoading] = useState(false);
-
-  const { LoginUserHandle } = useContext(userContext);
+  const dispatch = useDispatch()
+  // const { LoginUserHandle } = useContext(userContext);
   const navigate = useNavigate();
 
   const submitHandler = async (event) => {
@@ -39,7 +41,9 @@ const SignUp = () => {
     if (tokenLogin) {
       setLoading(false)
       alert("signUp successfull");
-      LoginUserHandle(responseData.idToken);
+      // LoginUserHandle(responseData.idToken);
+      dispatch(authActions.login(responseData.idToken))
+      localStorage.setItem('idToken',responseData.idToken)
       navigate("/login");
     }
   };

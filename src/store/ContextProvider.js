@@ -14,7 +14,11 @@ const ContextProvider = (props) => {
     );
     const responseData = response.data;
     console.log(responseData, "sasasasa");
-    setList(responseData);
+    setList([]);
+    for (let key in responseData) {
+      setList((prev) => [...prev, { id: key, ...responseData[key] }]);
+    }
+    // setList(responseData);
   };
 
   const addExpenssetLists = async (data) => {
@@ -25,12 +29,13 @@ const ContextProvider = (props) => {
     const responseData = response.data;
     console.log(responseData);
     setList([...list, data]);
+    console.log([...list, data], "ppppppp");
     setListExpenses();
   };
 
-  const deleteItems = async () => {
+  const deleteItems = async (id) => {
     const response = await axios.delete(
-      `https://expense-list-270ee-default-rtdb.firebaseio.com/${expenses.name}.json`
+      `https://expense-list-270ee-default-rtdb.firebaseio.com/expenses/${id}.json`
     );
 
     const responseData = response.data;
@@ -38,28 +43,23 @@ const ContextProvider = (props) => {
     setListExpenses();
   };
 
-  // const deleteItems = (name) => {
-  //   const deleteItem = list.filter((item) => item.name !== name);
-  //   setList(deleteItem);
-  // };
-
   const editItems = (name) => {};
 
   const isLoggedIn = !!token;
-  const LoginUserHandle = (idToken) => {
-    setToken(idToken);
-    localStorage.setItem("idToken", idToken);
-  };
+  // const LoginUserHandle = (idToken) => {
+  //   setToken(idToken);
+  //   localStorage.setItem("idToken", idToken);
+  // };
 
-  const LogoutHandler = () => {
-    setToken(null);
-    localStorage.clear();
-  };
+  // const LogoutHandler = () => {
+  //   setToken(null);
+  //   localStorage.clear();
+  // };
 
   const contextValue = {
     token: token,
-    LoginUserHandle: LoginUserHandle,
-    LogoutHandler: LogoutHandler,
+    // LoginUserHandle: LoginUserHandle,
+    // LogoutHandler: LogoutHandler,
     isLoggedIn: isLoggedIn,
     addExpenssetLists: addExpenssetLists,
     list: list,

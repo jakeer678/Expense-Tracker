@@ -1,15 +1,19 @@
 import React, { useContext, useRef, useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { userContext } from "../../store/ContextStore";
+
+import { authActions } from "../../store/AuthSice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-
   const [isLoading, setLoading] = useState(false);
-  const { LoginUserHandle } = useContext(userContext);
+  // const { LoginUserHandle } = useContext(userContext);
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
   const submitHandler = async (event) => {
     event.preventDefault();
 
@@ -39,7 +43,9 @@ const Login = () => {
     if (token) {
       setLoading(false);
       alert("Login successful");
-      LoginUserHandle(responseData.idToken);
+      //  LoginUserHandle(responseData.idToken);
+      localStorage.setItem("idToken", responseData.idToken);
+      dispatch(authActions.login(responseData.idToken));
       navigate("/startingpage");
     } else {
       alert("Login failed, Please try again");

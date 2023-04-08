@@ -2,12 +2,16 @@ import React, { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { userContext } from "../../store/ContextStore";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/AuthSice";
 
 const Navbar = () => {
   const { isLoggedIn, LogoutHandler } = useContext(userContext);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const logout = () => {
-    LogoutHandler();
+    // LogoutHandler();
+    dispatch(authActions.logout);
     navigate("/login");
   };
   return (
