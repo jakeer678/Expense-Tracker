@@ -1,22 +1,49 @@
-import React, { useContext } from "react";
-import { userContext } from "../../store/ContextStore";
+// import React, { useContext } from "react";
+// import { userContext } from "../../store/ContextStore";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
-const ExpenseList = () => {
-  const { list, deleteItems } = useContext(userContext);
+const ExpenseList = ({ fetchData }) => {
+  //   // const { list, deleteItems } = useContext(userContext);
 
-  // const result = Object.keys(data).map(key => data[key]);
-  const Petrol = list?.filter((item) => {
+  const listItems = useSelector((state) => state.expense.expenseItem);
+
+  console.log(listItems, "Aakakak");
+
+  const Petrol = listItems?.filter((item) => {
     if (item.productType === "Petrol") return item;
   });
-  const food = list?.filter((item) => {
+  const food = listItems?.filter((item) => {
     if (item.productType === "food") return item;
   });
-  const salary = list?.filter((item) => {
+  const salary = listItems?.filter((item) => {
     if (item.productType === "salary") return item;
   });
+
+  const totalAmount = listItems.reduce((acc, cur) => {
+    return acc + cur.moneySpent;
+  }, 0);
+
+  const deleteItems = async (id) => {
+    const response = await axios.delete(
+      `https://expense-list-270ee-default-rtdb.firebaseio.com/expenses/${id}.json`
+    );
+    const responseData = response.data;
+    fetchData();
+    console.log(responseData);
+  };
+
   return (
     <>
       <div>
+        <div>{totalAmount}</div>
+        <div>
+          {totalAmount > 1000 && (
+            <div>
+              <button>Premium button</button>
+            </div>
+          )}
+        </div>
         {console.log(Petrol, "pppppppp")}
         {Petrol.map((item) => {
           return (
