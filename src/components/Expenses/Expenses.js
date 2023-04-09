@@ -9,7 +9,7 @@ import "./Expenses.css";
 import { userContext } from "../../store/ContextStore";
 import ExpenseList from "./ExpenseList";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { expenseSliceActions } from "../../store/ExpenseSlice";
 
 const Expenses = () => {
@@ -20,6 +20,7 @@ const Expenses = () => {
 
   // const { addExpenssetLists } = useContext(userContext);
   const [editInput, setEditInput] = useState(false);
+  const theme = useSelector((state) => state.theme.isThemeActivate);
 
   const fetchData = async () => {
     const response = await axios.get(

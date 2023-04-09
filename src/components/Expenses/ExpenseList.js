@@ -1,11 +1,14 @@
 // import React, { useContext } from "react";
 // import { userContext } from "../../store/ContextStore";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { themeActions } from "../../store/ThemeSlice";
 
 const ExpenseList = ({ fetchData }) => {
   //   // const { list, deleteItems } = useContext(userContext);
 
+  const dispatch = useDispatch();
+  const theme = useSelector((state) => state.theme.isThemeActivate);
   const listItems = useSelector((state) => state.expense.expenseItem);
 
   console.log(listItems, "Aakakak");
@@ -33,6 +36,28 @@ const ExpenseList = ({ fetchData }) => {
     console.log(responseData);
   };
 
+  const themeSWitchHanfler = () => {
+    dispatch(themeActions.themeActivation());
+  };
+
+  const expenseDownload = [];
+
+  console.log(expenseDownload, "jakersasasasa");
+  listItems.forEach((element) => {
+    expenseDownload.push([
+      element.moneySpent,
+      element.productType,
+      element.description,
+    ]);
+  });
+
+  const expenseDownload2 = expenseDownload
+    .map((row) => row.join("."))
+    .join(".\n");
+
+  const blob = new Blob([expenseDownload2]);
+  const urlDownload = URL.createObjectURL(blob);
+
   return (
     <>
       <div>
@@ -40,9 +65,14 @@ const ExpenseList = ({ fetchData }) => {
         <div>
           {totalAmount > 1000 && (
             <div>
-              <button>Premium button</button>
+              <button onClick={themeSWitchHanfler}>
+                {theme ? "Premium-Dark" : "Premium-Light"}
+              </button>
             </div>
           )}
+          <a href={urlDownload} download="Expense.csv">
+            Download Expense
+          </a>
         </div>
         {console.log(Petrol, "pppppppp")}
         {Petrol.map((item) => {

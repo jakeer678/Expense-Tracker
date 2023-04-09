@@ -5,6 +5,7 @@ const ProfileDetail = () => {
   const [profileUpdate, setProfileUpdate] = useState("");
   const fullNameRef = useRef();
   const photoUrlRef = useRef();
+  const [isLoading, setIsLoading] = useState(false);
   const { token } = useContext(userContext);
 
   const fetchProfileUpdate = async () => {
@@ -31,7 +32,7 @@ const ProfileDetail = () => {
     e.preventDefault();
     const enteredFullName = fullNameRef.current.value;
     const enteredphotoUrl = photoUrlRef.current.value;
-
+    setIsLoading(true);
     try {
       const response = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCu5UWll7yrSyYvqmDYmYLdxlWNkCixilI",
@@ -51,6 +52,8 @@ const ProfileDetail = () => {
 
       const responseData = await response.json();
       console.log(responseData, "photourl");
+      alert("Profile updated successfully")
+      setIsLoading(false);
       setProfileUpdate(responseData);
     } catch (err) {
       console.log(err);
@@ -73,6 +76,7 @@ const ProfileDetail = () => {
           <label htmlFor="imageUrl">Profile Photo Url</label>
           <input ref={photoUrlRef} />
         </div>
+        {isLoading && <p>sending request..!</p>}
         <button type="submit">Update</button>
       </form>
     </div>
