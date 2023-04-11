@@ -1,10 +1,18 @@
-import React, { useContext, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import React, {
+  useContext,
+  // useRef
+} from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { userContext } from "../../store/ContextStore";
+import { Button } from "@mui/material";
+import "./StartingPage.css";
+import SendIcon from "@mui/icons-material/Send";
+import { useSelector } from "react-redux";
 
 const StartingPage = () => {
-  const { token } = useContext(userContext);
-
+  // const { token } = useContext(userContext);
+  const token = useSelector((state) => state.auth.idToken);
+  const redirect = useNavigate("");
   const verifyEmailSubmitHandler = async (e) => {
     e.preventDefault();
     const response = await fetch(
@@ -20,22 +28,32 @@ const StartingPage = () => {
         },
       }
     );
-
+    alert("Email verified successfully and check your Email Inbox");
     const responseData = response.json();
+    redirect("/");
     console.log(responseData, "verifyemail");
   };
 
   return (
     <>
-      <div>
-        <h1>welcome to Expense Tracker</h1>
-        <form onSubmit={verifyEmailSubmitHandler}>
-          <button>Verify Your Email id</button>
-        </form>
+      <div className="verify_page">
+        <h2>Welcome to Expense Tracker</h2>
+
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={verifyEmailSubmitHandler}
+        >
+          Verify Your Email id
+        </Button>
 
         <p>
-          Your profile is incomplete.
-          <NavLink to="/contactdetails">complete now</NavLink>{" "}
+          Your profile is Incomplete------
+          <Button variant="contained" color="warning" endIcon={<SendIcon />}>
+            <NavLink to="/contactdetails" className="complete_profile">
+              complete now
+            </NavLink>
+          </Button>
         </p>
       </div>
     </>

@@ -2,16 +2,19 @@ import React, { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { userContext } from "../../store/ContextStore";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../../store/AuthSice";
+import Button from "@mui/material/Button";
 
 const Navbar = () => {
-  const { isLoggedIn, LogoutHandler } = useContext(userContext);
+  // const { isLoggedIn, LogoutHandler } = useContext(userContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.idToken);
+  console.log(isLoggedIn, "uuuuuuuu");
   const logout = () => {
     // LogoutHandler();
-    dispatch(authActions.logout);
+    dispatch(authActions.logout());
     navigate("/login");
   };
   return (
@@ -19,7 +22,12 @@ const Navbar = () => {
       <ul className="header">
         {isLoggedIn && (
           <li>
-            <NavLink to="/startingpage">Home</NavLink>
+            <NavLink to="/">Home</NavLink>
+          </li>
+        )}
+        {isLoggedIn && (
+          <li>
+            <NavLink to="/startingpage">Profile</NavLink>
           </li>
         )}
         {isLoggedIn && (
@@ -34,9 +42,9 @@ const Navbar = () => {
         )}
         {isLoggedIn && (
           <li>
-            <button onClick={logout}>
+            <Button variant="outlined" type="submit" onClick={logout}>
               <NavLink to="/login">Logout</NavLink>
-            </button>
+            </Button>
           </li>
         )}
       </ul>

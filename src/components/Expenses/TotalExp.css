@@ -1,0 +1,14 @@
+.premium {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+
+}
+.download a {
+    text-decoration: none;
+    color: red;
+    background: yellow;
+    margin-top: 2rem;
+    padding: 8px;
+}

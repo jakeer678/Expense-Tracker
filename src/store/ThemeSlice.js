@@ -1,10 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
-const initialState = { isThemeActivate: false}
+const initialState = { isThemeActivate: false };
 const themeSlice = createSlice({
   name: "theme",
-  initialState:initialState,
+  initialState: initialState,
   reducers: {
     themeActivation(state) {
       state.isThemeActivate = !state.isThemeActivate;

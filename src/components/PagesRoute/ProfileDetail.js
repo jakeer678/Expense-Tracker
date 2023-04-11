@@ -1,12 +1,18 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { userContext } from "../../store/ContextStore";
+import "./Profile.css";
+import { Button } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const ProfileDetail = () => {
   const [profileUpdate, setProfileUpdate] = useState("");
   const fullNameRef = useRef();
   const photoUrlRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
-  const { token } = useContext(userContext);
+  const redirect = useNavigate('')
+  // const { token } = useContext(userContext);
+  const token = useSelector((state) => state.auth.idToken);
 
   const fetchProfileUpdate = async () => {
     const response = await fetch(
@@ -52,9 +58,11 @@ const ProfileDetail = () => {
 
       const responseData = await response.json();
       console.log(responseData, "photourl");
-      alert("Profile updated successfully")
+      alert("Profile updated successfully");
       setIsLoading(false);
       setProfileUpdate(responseData);
+      redirect('/expenses')
+
     } catch (err) {
       console.log(err);
     }
@@ -65,19 +73,23 @@ const ProfileDetail = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Contact Deatil</h1>
+    <div className="profile">
+      <h3>Upadate Your Profile</h3>
       <form onSubmit={profileSubmitHandler}>
-        <div>
+        <div className="control_1">
           <label>Full name</label>
           <input type="text" ref={fullNameRef} />
         </div>
-        <div>
+        <div className="control_1">
           <label htmlFor="imageUrl">Profile Photo Url</label>
           <input ref={photoUrlRef} />
         </div>
         {isLoading && <p>sending request..!</p>}
-        <button type="submit">Update</button>
+        <div className="btn_update">
+          <Button type="submit" variant="contained" color="success">
+            update
+          </Button>
+        </div>
       </form>
     </div>
   );

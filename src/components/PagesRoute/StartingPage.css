@@ -1,0 +1,18 @@
+.verify_page {
+    margin-top: 6rem;
+    text-align: center;
+    background-color: aqua;
+    height: 15rem;
+}
+.verify_page p {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.verify_page h2 {
+    padding: 1rem;
+}
+.complete_profile {
+    text-decoration: none;
+    color: white;
+}

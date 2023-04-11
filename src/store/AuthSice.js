@@ -13,10 +13,10 @@ const authSlice = createSlice({
       localStorage.setItem("idToken", action.payload);
       state.islogin = true;
       state.idToken = action.payload;
+      console.log(state.idToken, "oooooooo");
     },
     logout(state, action) {
-      localStorage.removeItem("idToken");
-      localStorage.removeItem("userEmail");
+      state.idToken = localStorage.clear();
       state.islogin = false;
       state.idToken = null;
     },

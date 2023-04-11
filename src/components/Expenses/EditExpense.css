@@ -1,9 +1,20 @@
-.auth {
+.select_edit {
+    height: 35px;
+    padding: 5px 35px 1px 60px;
+    font-size: 20px;
+    border: 2px solid #ccc; 
+    font-weight: 500;
+    width: 10rem;
+    margin-top: 1rem;
+    border-radius: 10px;
+}
+
+.authopen {
     margin: 3rem auto;
     
     max-width: 25rem;
     border-radius: 6px;
-    background-color: #0b4141;
+    background-color: #030d5f;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     padding: 1rem;
     color: white;
@@ -39,33 +50,3 @@
    
   }
   
-  .actions {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
- 
-  
-  .actions button:hover {
-    background-color: #433abb;
-    border-color: #2518df;
-  }
-
- .download_btn {
-    margin-top: 2rem;
- }
-
-  select {
-   
-        height: 35px;
-        padding: 5px 35px 1px 60px;
-        font-size: 20px;
-        border: 2px solid #ccc; 
-        font-weight: 500;
-        width: 10rem;
-        margin-top: 1rem;
-        border-radius: 10px;
-  }
- 
- 

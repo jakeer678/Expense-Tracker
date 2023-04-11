@@ -1,26 +1,22 @@
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { Fragment, useEffect, useRef } from "react";
 import "./Expenses.css";
-import { userContext } from "../../store/ContextStore";
+// import { userContext } from "../../store/ContextStore";
 import ExpenseList from "./ExpenseList";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { expenseSliceActions } from "../../store/ExpenseSlice";
+import TotalExpense from "./TotalExpense";
+import "./Expenses.css";
+import { Button } from "@mui/material";
+import DownloadExp from "./DownloadExp";
 
 const Expenses = () => {
   const dispatch = useDispatch();
   const amountSpentRef = useRef();
   const descriptionRef = useRef();
   const productTypeRef = useRef();
-
+  const listItems = useSelector((state) => state.expense.expenseItem);
   // const { addExpenssetLists } = useContext(userContext);
-  const [editInput, setEditInput] = useState(false);
-  const theme = useSelector((state) => state.theme.isThemeActivate);
 
   const fetchData = async () => {
     const response = await axios.get(
@@ -44,31 +40,18 @@ const Expenses = () => {
       description: descriptionRef.current.value,
       productType: productTypeRef.current.value,
     };
-    if (!editInput) {
-      try {
-        const response = await axios.post(
-          `https://expense-list-270ee-default-rtdb.firebaseio.com/expenses.json`,
-          data
-        );
 
-        const responseData = response.data;
-        console.log(responseData, "uuuuu");
-        fetchData();
-      } catch (err) {
-        console.log(err);
-      }
-      // addExpenssetLists(data);
+    try {
+      const response = await axios.post(
+        `https://expense-list-270ee-default-rtdb.firebaseio.com/expenses.json`,
+        data
+      );
 
-      if (editInput) {
-        const response = await axios.put(
-          `https://expense-list-270ee-default-rtdb.firebaseio.com/expenses.json`,
-          data
-        );
-        const responseData = response.data;
-        console.log(responseData);
-
-        setEditInput(false);
-      }
+      const responseData = response.data;
+      console.log(responseData,);
+      fetchData();
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -78,14 +61,17 @@ const Expenses = () => {
 
   return (
     <Fragment>
-      <div className="expenses">
+      <section className="auth">
+        <div className="total">
+          <TotalExpense />
+        </div>
         <form onSubmit={submitHandler}>
-          <div>
-            <label>Amount spent</label>
+          <div className="control">
+            <label htmlFor="amount">Amount spent</label>
             <input type="number" ref={amountSpentRef} />
           </div>
-          <div>
-            <label>Description of the Expenses</label>
+          <div className="control">
+            <label htmlFor="description">Description of the Expenses</label>
             <input type="text" ref={descriptionRef} />
           </div>
           <div>
@@ -95,19 +81,30 @@ const Expenses = () => {
               <option value="salary">Salary</option>
             </select>
           </div>
-          {!editInput && (
-            <div>
-              <button type="submit">Add Items</button>
-            </div>
-          )}
-          {editInput && (
-            <div>
-              <button type="submit">Update Items</button>
-            </div>
-          )}
+
+          <div className="actions">
+            <Button type="submit" variant="contained" className="toggle">
+              Add Expenses
+            </Button>
+          </div>
         </form>
-        <div>{<ExpenseList fetchData={fetchData} />}</div>
-      </div>
+        <div className="download_btn">
+          <DownloadExp />
+        </div>
+
+        <div>
+          {listItems.map((item) => (
+            <ExpenseList
+              fetchData={fetchData}
+              key={item.id}
+              id={item.id}
+              price={item.moneySpent}
+              description={item.description}
+              productType={item.productType}
+            />
+          ))}
+        </div>
+      </section>
     </Fragment>
   );
 };

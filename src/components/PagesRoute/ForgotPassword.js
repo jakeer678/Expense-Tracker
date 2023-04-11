@@ -1,18 +1,22 @@
 import React, { useRef, useState } from "react";
 import "./Forgot.css";
 import { Link, useNavigate } from "react-router-dom";
+import SendIcon from '@mui/icons-material/Send';
+import Button from '@mui/material/Button';
+
 
 const ForgotPassword = () => {
-  const emailInputRef = useRef();
+  const emailInputRef = useRef(null);
   const [isLoading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+  const redirect = useNavigate("");
 
   const newPasswordSubmitHandler = async (e) => {
-    e.preventDefaut();
+    e.preventDefault();
     const enteredEmail = emailInputRef.current.value;
-    setLoading(true);
+
     try {
+      setLoading(true);
       const response = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCu5UWll7yrSyYvqmDYmYLdxlWNkCixilI",
         {
@@ -33,16 +37,17 @@ const ForgotPassword = () => {
         alert(responseData.error.message);
       } else {
         alert("Check your email inbox and reset password");
-        navigate("/");
+        redirect("/");
       }
     } catch (err) {
+      setLoading(false);
       console.log(err);
     }
   };
   return (
     <>
-      <div>
-        <form onSubmit={newPasswordSubmitHandler}>
+      <form onSubmit={newPasswordSubmitHandler}>
+        <div className="forgot">
           <div>
             <input
               className="form-control"
@@ -52,15 +57,20 @@ const ForgotPassword = () => {
               ref={emailInputRef}
             />
           </div>
-          <div>
-            {!isLoading && <button type="submit">Send Link</button>}
+          <div className="already_user">
+            {!isLoading && (
+              <Button variant="contained" type="submit" endIcon={<SendIcon />}>
+                Send Link
+              </Button>
+            )}
+
             {isLoading && <p>sending request</p>}
             <p>
               Already a user?<Link to="/login">Login</Link>
             </p>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </>
   );
 };

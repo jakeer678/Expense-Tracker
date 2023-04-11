@@ -8,6 +8,7 @@ import Login from "../PagesRoute/Login";
 import ForgotPassword from "../PagesRoute/ForgotPassword";
 import ContactDetails from "../PagesRoute/ProfileDetail";
 import Expenses from "../Expenses/Expenses";
+import ProfileDetail from "../PagesRoute/ProfileDetail";
 
 const RoutingApp = () => {
   return (
@@ -27,7 +28,7 @@ const RoutingApp = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/forgot" element={<ForgotPassword />} />
             <Route path="/startingpage" element={<StartingPage />} />
-            <Route path="/contactdetails" element={<ContactDetails />} />
+            <Route path="/contactdetails" element={<ProfileDetail />} />
             <Route path="/expenses" element={<Expenses />} />
           </Route>
         </Routes>

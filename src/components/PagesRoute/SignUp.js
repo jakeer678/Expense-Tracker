@@ -5,13 +5,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { userContext } from "../../store/ContextStore";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/AuthSice";
+import { Button } from "@mui/material";
 
 const SignUp = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const confirmPasswordRef = useRef();
   const [isLoading, setLoading] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // const { LoginUserHandle } = useContext(userContext);
   const navigate = useNavigate();
 
@@ -21,9 +22,10 @@ const SignUp = () => {
     const emailInput = emailInputRef.current.value;
     const passwordInput = passwordInputRef.current.value;
     const confirmPasswordInput = confirmPasswordRef.value;
-    setLoading(true)
+    console.log(confirmPasswordInput);
+    setLoading(true);
     const response = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCu5UWll7yrSyYvqmDYmYLdxlWNkCixilI",
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCu5UWll7yrSyYvqmDYmYLdxlWNkCixilI",
       {
         method: "POST",
         body: JSON.stringify({
@@ -39,47 +41,41 @@ const SignUp = () => {
     const responseData = await response.json();
     const tokenLogin = !!responseData.idToken;
     if (tokenLogin) {
-      setLoading(false)
+      setLoading(false);
       alert("signUp successfull");
       // LoginUserHandle(responseData.idToken);
-      dispatch(authActions.login(responseData.idToken))
-      localStorage.setItem('idToken',responseData.idToken)
-      navigate("/login");
+      dispatch(authActions.login(responseData.idToken));
+      localStorage.setItem("idToken", responseData.idToken);
+      navigate("/");
     }
   };
 
   return (
     <>
-      <div className="form">
+      <div className="signUpForm">
         <h4>Sign Up</h4>
         <form onSubmit={submitHandler}>
-          <div>
-            <labe>Email</labe>
+          <div className="form-control_1">
             <input
-              className="form-control"
               type="email"
               placeholder="Email"
               required
               ref={emailInputRef}
             />
           </div>
-          <div>
-            <label>Password</label>
+          <div className="form-control_1">
             <input
               type="password"
               placeholder="Password"
-              className="form-control"
               required
               ref={passwordInputRef}
             />
           </div>
 
-          <div>
-            <label>Confirm Password</label>
+          <div className="form-control_1">
             <input
               type="password"
               placeholder="Confirm-Password"
-              className="form-control"
               id="inputPassword"
               required
               ref={confirmPasswordRef}
@@ -90,9 +86,11 @@ const SignUp = () => {
             {isLoading && <p>sending request.......</p>}
 
             {!isLoading && (
-              <button type="submit" className="">
-                Sign Up
-              </button>
+              <div className="signUpbtn">
+                <Button type="submit" variant="contained">
+                  SignUp
+                </Button>
+              </div>
             )}
           </div>
           <div>

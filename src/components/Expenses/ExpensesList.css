@@ -1,0 +1,6 @@
+.expenselist li {
+background-color: rgb(24, 236, 5);
+padding: 0.3rem;
+border-radius: 0.2rem;
+list-style: none;
+}

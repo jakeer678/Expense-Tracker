@@ -1,9 +1,12 @@
-import React, { useContext, useRef, useState } from "react";
-
+import React, {
+  //  useContext, 
+  useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import { authActions } from "../../store/AuthSice";
 import { useDispatch } from "react-redux";
+import './Login.css'
+import { Button } from "@mui/material";
+
 
 const Login = () => {
   const emailInputRef = useRef();
@@ -16,10 +19,8 @@ const Login = () => {
 
   const submitHandler = async (event) => {
     event.preventDefault();
-
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-
     setLoading(true);
     const response = await fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCu5UWll7yrSyYvqmDYmYLdxlWNkCixilI",
@@ -54,7 +55,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="form">
+      <div className="form_1">
         <h4>Login</h4>
         <form onSubmit={submitHandler}>
           <div>
@@ -67,7 +68,7 @@ const Login = () => {
             />
           </div>
           <div>
-            <input
+            <input 
               type="password"
               placeholder="Password"
               className="form-control"
@@ -76,13 +77,13 @@ const Login = () => {
             />
           </div>
           <div>
-            {!isLoading && <button type="submit">Login</button>}
+            {!isLoading && <Button type='submit' variant="contained">Login</Button>}
             {isLoading && <p>sending request</p>}
           </div>
-          <div>
+          <div className="forgot_pass">
             <Link to="/forgot">Forgot password</Link>
           </div>
-          <div>
+          <div className="forgot_pas1">
             <p>
               Don't have an account ? <Link to="/signup">SignUp</Link>
             </p>
