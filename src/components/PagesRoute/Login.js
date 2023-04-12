@@ -13,7 +13,7 @@ const Login = () => {
   const passwordInputRef = useRef();
   const [isLoading, setLoading] = useState(false);
   // const { LoginUserHandle } = useContext(userContext);
-  const navigate = useNavigate();
+  const navigate = useNavigate('');
 
   const dispatch = useDispatch();
 

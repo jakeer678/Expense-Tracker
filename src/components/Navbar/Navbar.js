@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { userContext } from "../../store/ContextStore";
@@ -11,12 +11,18 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.idToken);
-  console.log(isLoggedIn, "uuuuuuuu");
+
   const logout = () => {
-    // LogoutHandler();
     dispatch(authActions.logout());
     navigate("/login");
   };
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     logout();
+  //   }, 50000);
+  // },[logout]);
+
   return (
     <div>
       <ul className="header">
